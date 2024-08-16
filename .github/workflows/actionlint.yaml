@@ -19,6 +19,9 @@ jobs:
     permissions: {}
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - uses: DeterminateSystems/nix-installer-action@ab6bcb2d5af0e904d04aea750e2089e9dc4cbfdd #v13
+      # - uses: DeterminateSystems/nix-installer-action@ab6bcb2d5af0e904d04aea750e2089e9dc4cbfdd # v13
+      - uses: cachix/install-nix-action@ba0dd844c9180cbf77aa72a116d6fbc515d0e87b # v27
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: check ghalint version
         run: nix develop --command ghalint --version

@@ -25,4 +25,4 @@ jobs:
       - name: check ghalint version
         run: |
           nix build .#ghalint
-          ./result/bin/ghallint --version
+          ./result/bin/ghalint --version

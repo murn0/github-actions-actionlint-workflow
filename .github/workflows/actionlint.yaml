@@ -25,4 +25,4 @@ jobs:
       - name: check ghalint version
         run: |
           nix build .#ghalint
-          echo "::notice::$(./result/bin/ghalint --version)"
+          ./result/bin/ghallint --version

@@ -30,7 +30,6 @@
             actionlint
             config.packages.ghalint
             just
-            reviewdog
           ];
           shellHook = ''
             ${config.pre-commit.installationScript}

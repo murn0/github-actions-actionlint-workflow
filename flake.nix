@@ -27,8 +27,8 @@
 
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
-            actionlint
             config.packages.ghalint
+            renovate
             just
           ];
           shellHook = ''
@@ -47,6 +47,11 @@
                 files = "^.github/workflows/";
                 types = ["yaml"];
                 entry = "${config.packages.ghalint}/bin/ghalint run";
+              };
+              renovate = {
+                enable = true;
+                files = "(^|/).?renovate(?:rc)?(?:\.json5?)?$";
+                entry = "${pkgs.renovate}/bin/renovate-config-validator --strict";
               };
             };
           };

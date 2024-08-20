@@ -26,3 +26,6 @@ jobs:
         run: |
           nix build .#ghalint
           ./result/bin/ghalint --version
+      - name: flake check
+        run: |
+          nix flake check

@@ -48,7 +48,7 @@
                 types = ["yaml"];
                 entry = "${config.packages.ghalint}/bin/ghalint run";
               };
-              renovate = {
+              renovate-config-validator = {
                 enable = true;
                 files = "(^|/).?renovate(?:rc)?(?:\.json5?)?$";
                 entry = "${pkgs.renovate}/bin/renovate-config-validator --strict";

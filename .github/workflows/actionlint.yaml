@@ -26,6 +26,6 @@ jobs:
         run: |
           nix build .#ghalint
           ./result/bin/ghalint --version
-      - name: flake check
+      - name: run actionlint and ghalint
         run: |
           nix develop --command bash -c 'git ls-files -- ".github/workflows/*.yaml" | xargs pre-commit run --files'

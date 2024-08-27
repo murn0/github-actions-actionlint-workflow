@@ -28,7 +28,6 @@
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             config.packages.ghalint
-            renovate
             just
           ];
           shellHook = ''

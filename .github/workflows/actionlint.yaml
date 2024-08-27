@@ -28,4 +28,5 @@ jobs:
           ./result/bin/ghalint --version
       - name: flake check
         run: |
-          nix flake check
+          files=$(git ls-files -- ".github/workflows/*.yaml")
+          nix develop --command pre-commit run --files "$files"

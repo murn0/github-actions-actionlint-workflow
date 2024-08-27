@@ -29,4 +29,5 @@ jobs:
       - name: flake check
         run: |
           files=$(git ls-files -- ".github/workflows/*.yaml")
+          echo "$files"
           nix develop --command pre-commit run --files "$files"

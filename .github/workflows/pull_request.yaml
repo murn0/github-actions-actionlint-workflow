@@ -1,6 +1,6 @@
 ---
 name: Pull Request
-on: 
+on:
   pull_request:
     tags:
       - 'v\d+'
@@ -54,4 +54,4 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: check
         run: |
-          nix develop --command pre-commit run actionlint --files ${{needs.path-filter.outputs.actionlint_changed_files}}
+          nix develop --command pre-commit run actionlint --files ${{ needs.path-filter.outputs.actionlint_changed_files }}

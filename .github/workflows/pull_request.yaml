@@ -9,11 +9,13 @@ jobs:
     outputs:
       renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
       actionlint: ${{steps.changes.outputs.actionlint}}
+      actionlint_changed_files: ${{steps.changes.outputs.actionlint_files}}
     permissions: {}
     steps:
       - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         with:
+          list-files: shell
           filters: |
             renovate-config-validator:
               - default.json
@@ -49,4 +51,4 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: check
         run: |
-          nix develop --command pre-commit run actionlint
+          nix develop --command pre-commit run actionlint --files ${{needs.path-filter.outputs.actionlint_changed_files}}

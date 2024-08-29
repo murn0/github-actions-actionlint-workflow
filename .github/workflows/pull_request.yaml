@@ -39,7 +39,6 @@ jobs:
           nix develop --command pre-commit run renovate-config-validator --files ./default.json ./renovate.json
 
   actionlint:
-    timeout-minutes: 30
     needs: path-filter
     if: needs.path-filter.outputs.actionlint == 'true'
     runs-on: "ubuntu-22.04"
@@ -51,4 +50,4 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: check
         run: |
-          nix develop --command pre-commit run actionlint --files ${{ needs.path-filter.outputs.actionlint_changed_files }}
+          nix develop --command pre-commit run ghalint --files ${{ needs.path-filter.outputs.actionlint_changed_files }}

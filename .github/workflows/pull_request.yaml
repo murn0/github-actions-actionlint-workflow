@@ -1,0 +1,56 @@
+---
+name: Pull Request
+on: pull_request
+env:
+  PRE_COMMIT_COLOR: always
+permissions: {}
+jobs:
+  path-filter:
+    timeout-minutes: 30
+    runs-on: "ubuntu-22.04"
+    outputs:
+      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+      actionlint: ${{steps.changes.outputs.actionlint}}
+      actionlint_changed_files: ${{steps.changes.outputs.actionlint_files}}
+    permissions: {}
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        with:
+          list-files: shell
+          filters: |
+            renovate-config-validator:
+              - default.json
+              - renovate.json5
+            actionlint:
+              - .github/workflows/*.yaml
+
+  renovate-config-validator:
+    timeout-minutes: 30
+    needs: path-filter
+    if: needs.path-filter.outputs.renovate-config-validator == 'true'
+    runs-on: "ubuntu-22.04"
+    permissions: {}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: cachix/install-nix-action@ba0dd844c9180cbf77aa72a116d6fbc515d0e87b # v27
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: check
+        run: |
+          nix develop --command pre-commit run renovate-config-validator --files ./default.json ./renovate.json
+
+  actionlint:
+    timeout-minutes: 30
+    needs: path-filter
+    if: needs.path-filter.outputs.actionlint == 'true'
+    runs-on: "ubuntu-22.04"
+    permissions: {}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: cachix/install-nix-action@ba0dd844c9180cbf77aa72a116d6fbc515d0e87b # v27
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: check
+        run: |
+          nix develop --command pre-commit run ghalint --files ${{ needs.path-filter.outputs.actionlint_changed_files }}
